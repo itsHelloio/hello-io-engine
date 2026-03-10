@@ -1,4 +1,4 @@
-# OpenClaw docs i18n assets
+# HelloIo docs i18n assets
 
 This folder stores **generated** and **config** files for documentation translations.
 

@@ -41,8 +41,8 @@ describe("collectBundledExtensionRootDependencyGapErrors", () => {
             id: "googlechat",
             packageJson: {
               dependencies: { "google-auth-library": "^1.0.0" },
-              openclaw: {
-                install: { npmSpec: "@openclaw/googlechat" },
+              hello-io: {
+                install: { npmSpec: "@hello-io/googlechat" },
                 releaseChecks: {
                   rootDependencyMirrorAllowlist: ["google-auth-library"],
                 },
@@ -53,7 +53,7 @@ describe("collectBundledExtensionRootDependencyGapErrors", () => {
             id: "feishu",
             packageJson: {
               dependencies: { "@larksuiteoapi/node-sdk": "^1.59.0" },
-              openclaw: { install: { npmSpec: "@openclaw/feishu" } },
+              hello-io: { install: { npmSpec: "@hello-io/feishu" } },
             },
           },
         ],
@@ -72,8 +72,8 @@ describe("collectBundledExtensionRootDependencyGapErrors", () => {
             id: "googlechat",
             packageJson: {
               dependencies: { "google-auth-library": "^1.0.0", undici: "^7.0.0" },
-              openclaw: {
-                install: { npmSpec: "@openclaw/googlechat" },
+              hello-io: {
+                install: { npmSpec: "@hello-io/googlechat" },
                 releaseChecks: {
                   rootDependencyMirrorAllowlist: ["google-auth-library"],
                 },
@@ -96,8 +96,8 @@ describe("collectBundledExtensionRootDependencyGapErrors", () => {
             id: "googlechat",
             packageJson: {
               dependencies: { "google-auth-library": "^1.0.0" },
-              openclaw: {
-                install: { npmSpec: "@openclaw/googlechat" },
+              hello-io: {
+                install: { npmSpec: "@hello-io/googlechat" },
                 releaseChecks: {
                   rootDependencyMirrorAllowlist: ["google-auth-library"],
                 },
@@ -119,14 +119,14 @@ describe("collectBundledExtensionManifestErrors", () => {
         {
           id: "broken",
           packageJson: {
-            openclaw: {
+            hello-io: {
               install: { npmSpec: "   " },
             },
           },
         },
       ]),
     ).toEqual([
-      "bundled extension 'broken' manifest invalid | openclaw.install.npmSpec must be a non-empty string",
+      "bundled extension 'broken' manifest invalid | hello-io.install.npmSpec must be a non-empty string",
     ]);
   });
 
@@ -136,8 +136,8 @@ describe("collectBundledExtensionManifestErrors", () => {
         {
           id: "broken",
           packageJson: {
-            openclaw: {
-              install: { npmSpec: "@openclaw/broken" },
+            hello-io: {
+              install: { npmSpec: "@hello-io/broken" },
               releaseChecks: {
                 rootDependencyMirrorAllowlist: ["ok", ""],
               },
@@ -146,7 +146,7 @@ describe("collectBundledExtensionManifestErrors", () => {
         },
       ]),
     ).toEqual([
-      "bundled extension 'broken' manifest invalid | openclaw.releaseChecks.rootDependencyMirrorAllowlist must contain only non-empty strings",
+      "bundled extension 'broken' manifest invalid | hello-io.releaseChecks.rootDependencyMirrorAllowlist must contain only non-empty strings",
     ]);
   });
 });

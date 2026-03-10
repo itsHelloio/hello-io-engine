@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/telegram",
+  "name": "@hello-io/telegram",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw Telegram channel plugin",
+  "description": "HelloIo Telegram channel plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

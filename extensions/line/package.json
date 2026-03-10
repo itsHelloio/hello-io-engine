@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/line",
+  "name": "@hello-io/line",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw LINE channel plugin",
+  "description": "HelloIo LINE channel plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ],
@@ -19,7 +19,7 @@
       "quickstartAllowFrom": true
     },
     "install": {
-      "npmSpec": "@openclaw/line",
+      "npmSpec": "@hello-io/line",
       "localPath": "extensions/line",
       "defaultChoice": "npm"
     }

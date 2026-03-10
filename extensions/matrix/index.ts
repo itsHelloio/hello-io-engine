@@ -1,5 +1,5 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/matrix";
-import { emptyPluginConfigSchema } from "openclaw/plugin-sdk/matrix";
+import type { HelloIoPluginApi } from "hello-io/plugin-sdk/matrix";
+import { emptyPluginConfigSchema } from "hello-io/plugin-sdk/matrix";
 import { matrixPlugin } from "./src/channel.js";
 import { ensureMatrixCryptoRuntime } from "./src/matrix/deps.js";
 import { setMatrixRuntime } from "./src/runtime.js";
@@ -9,7 +9,7 @@ const plugin = {
   name: "Matrix",
   description: "Matrix channel plugin (matrix-js-sdk)",
   configSchema: emptyPluginConfigSchema(),
-  register(api: OpenClawPluginApi) {
+  register(api: HelloIoPluginApi) {
     setMatrixRuntime(api.runtime);
     void ensureMatrixCryptoRuntime({ log: api.logger.info }).catch((err) => {
       const message = err instanceof Error ? err.message : String(err);

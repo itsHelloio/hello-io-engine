@@ -21,8 +21,8 @@ async function waitForPersistedSecret(configPath: string, expectedSecret: string
 
 describe("config io owner display secret autofill", () => {
   it("auto-generates and persists commands.ownerDisplaySecret in hash mode", async () => {
-    await withTempHome("openclaw-owner-display-secret-", async (home) => {
-      const configPath = path.join(home, ".openclaw", "openclaw.json");
+    await withTempHome("hello-io-owner-display-secret-", async (home) => {
+      const configPath = path.join(home, ".hello-io", "hello-io.json");
       await fs.mkdir(path.dirname(configPath), { recursive: true });
       await fs.writeFile(
         configPath,

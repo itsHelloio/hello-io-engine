@@ -1,25 +1,25 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { HelloIoConfig } from "../config/config.js";
 import { resolveOnboardingSecretInputString } from "./onboarding.secret-input.js";
 
-function makeConfig(): OpenClawConfig {
+function makeConfig(): HelloIoConfig {
   return {
     secrets: {
       providers: {
         default: { source: "env" },
       },
     },
-  } as OpenClawConfig;
+  } as HelloIoConfig;
 }
 
 describe("resolveOnboardingSecretInputString", () => {
   it("resolves env-template SecretInput strings", async () => {
     const resolved = await resolveOnboardingSecretInputString({
       config: makeConfig(),
-      value: "${OPENCLAW_GATEWAY_PASSWORD}",
+      value: "${HELLO_IO_GATEWAY_PASSWORD}",
       path: "gateway.auth.password",
       env: {
-        OPENCLAW_GATEWAY_PASSWORD: "gateway-secret", // pragma: allowlist secret
+        HELLO_IO_GATEWAY_PASSWORD: "gateway-secret", // pragma: allowlist secret
       },
     });
 
@@ -40,12 +40,12 @@ describe("resolveOnboardingSecretInputString", () => {
     await expect(
       resolveOnboardingSecretInputString({
         config: makeConfig(),
-        value: "${OPENCLAW_GATEWAY_PASSWORD}",
+        value: "${HELLO_IO_GATEWAY_PASSWORD}",
         path: "gateway.auth.password",
         env: {},
       }),
     ).rejects.toThrow(
-      'gateway.auth.password: failed to resolve SecretRef "env:default:OPENCLAW_GATEWAY_PASSWORD"',
+      'gateway.auth.password: failed to resolve SecretRef "env:default:HELLO_IO_GATEWAY_PASSWORD"',
     );
   });
 });

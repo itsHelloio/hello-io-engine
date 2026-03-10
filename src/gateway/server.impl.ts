@@ -11,7 +11,7 @@ import { createDefaultDeps } from "../cli/deps.js";
 import { isRestartEnabled } from "../config/commands.js";
 import {
   CONFIG_PATH,
-  type OpenClawConfig,
+  type HelloIoConfig,
   isNixMode,
   loadConfig,
   migrateLegacyConfig,
@@ -34,7 +34,7 @@ import { createExecApprovalForwarder } from "../infra/exec-approval-forwarder.js
 import { onHeartbeatEvent } from "../infra/heartbeat-events.js";
 import { startHeartbeatRunner, type HeartbeatRunner } from "../infra/heartbeat-runner.js";
 import { getMachineDisplayName } from "../infra/machine-name.js";
-import { ensureOpenClawCliOnPath } from "../infra/path-env.js";
+import { ensureHelloIoCliOnPath } from "../infra/path-env.js";
 import { setGatewaySigusr1RestartPolicy, setPreRestartDeferralCheck } from "../infra/restart.js";
 import {
   primeRemoteSkillsCache,
@@ -118,7 +118,7 @@ import { maybeSeedControlUiAllowedOriginsAtStartup } from "./startup-control-ui-
 
 export { __resetModelCatalogCacheForTest } from "./server-model-catalog.js";
 
-ensureOpenClawCliOnPath();
+ensureHelloIoCliOnPath();
 
 const MAX_MEDIA_TTL_HOURS = 24 * 7;
 
@@ -163,7 +163,7 @@ function createGatewayAuthRateLimiters(rateLimitConfig: AuthRateLimitConfig | un
 }
 
 function logGatewayAuthSurfaceDiagnostics(prepared: {
-  sourceConfig: OpenClawConfig;
+  sourceConfig: HelloIoConfig;
   warnings: Array<{ code: string; path: string; message: string }>;
 }): void {
   const states = evaluateGatewayAuthSurfaceStates({
@@ -192,9 +192,9 @@ function logGatewayAuthSurfaceDiagnostics(prepared: {
 }
 
 function applyGatewayAuthOverridesForStartupPreflight(
-  config: OpenClawConfig,
+  config: HelloIoConfig,
   overrides: Pick<GatewayServerOptions, "auth" | "tailscale">,
-): OpenClawConfig {
+): HelloIoConfig {
   if (!overrides.auth && !overrides.tailscale) {
     return config;
   }
@@ -268,16 +268,16 @@ export async function startGatewayServer(
   opts: GatewayServerOptions = {},
 ): Promise<GatewayServer> {
   const minimalTestGateway =
-    process.env.VITEST === "1" && process.env.OPENCLAW_TEST_MINIMAL_GATEWAY === "1";
+    process.env.VITEST === "1" && process.env.HELLO_IO_TEST_MINIMAL_GATEWAY === "1";
 
   // Ensure all default port derivations (browser/canvas) see the actual runtime port.
-  process.env.OPENCLAW_GATEWAY_PORT = String(port);
+  process.env.HELLO_IO_GATEWAY_PORT = String(port);
   logAcceptedEnvOption({
-    key: "OPENCLAW_RAW_STREAM",
+    key: "HELLO_IO_RAW_STREAM",
     description: "raw stream logging enabled",
   });
   logAcceptedEnvOption({
-    key: "OPENCLAW_RAW_STREAM_PATH",
+    key: "HELLO_IO_RAW_STREAM_PATH",
     description: "raw stream log path override",
   });
 
@@ -312,7 +312,7 @@ export async function startGatewayServer(
         ? formatConfigIssueLines(configSnapshot.issues, "", { normalizeRoot: true }).join("\n")
         : "Unknown validation issue.";
     throw new Error(
-      `Invalid config at ${configSnapshot.path}.\n${issues}\nRun "${formatCliCommand("openclaw doctor")}" to repair, then retry.`,
+      `Invalid config at ${configSnapshot.path}.\n${issues}\nRun "${formatCliCommand("hello-io doctor")}" to repair, then retry.`,
     );
   }
 
@@ -334,7 +334,7 @@ export async function startGatewayServer(
   const emitSecretsStateEvent = (
     code: "SECRETS_RELOADER_DEGRADED" | "SECRETS_RELOADER_RECOVERED",
     message: string,
-    cfg: OpenClawConfig,
+    cfg: HelloIoConfig,
   ) => {
     enqueueSystemEvent(`[${code}] ${message}`, {
       sessionKey: resolveMainSessionKey(cfg),
@@ -351,7 +351,7 @@ export async function startGatewayServer(
     return await run;
   };
   const activateRuntimeSecrets = async (
-    config: OpenClawConfig,
+    config: HelloIoConfig,
     params: { reason: "startup" | "reload" | "restart-check"; activate: boolean },
   ) =>
     await runWithSecretsActivationLock(async () => {
@@ -397,7 +397,7 @@ export async function startGatewayServer(
     });
 
   // Fail fast before startup if required refs are unresolved.
-  let cfgAtStart: OpenClawConfig;
+  let cfgAtStart: HelloIoConfig;
   {
     const freshSnapshot = await readConfigFileSnapshot();
     if (!freshSnapshot.valid) {
@@ -436,7 +436,7 @@ export async function startGatewayServer(
       );
     } else {
       log.warn(
-        "Gateway auth token was missing. Generated a runtime token for this startup without changing config; restart will generate a different token. Persist one with `openclaw config set gateway.auth.mode token` and `openclaw config set gateway.auth.token <token>`.",
+        "Gateway auth token was missing. Generated a runtime token for this startup without changing config; restart will generate a different token. Persist one with `hello-io config set gateway.auth.mode token` and `hello-io config set gateway.auth.token <token>`.",
       );
     }
   }

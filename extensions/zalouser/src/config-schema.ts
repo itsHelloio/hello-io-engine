@@ -1,8 +1,8 @@
 import {
   AllowFromEntrySchema,
   buildCatchallMultiAccountChannelSchema,
-} from "openclaw/plugin-sdk/compat";
-import { MarkdownConfigSchema, ToolPolicySchema } from "openclaw/plugin-sdk/zalouser";
+} from "hello-io/plugin-sdk/compat";
+import { MarkdownConfigSchema, ToolPolicySchema } from "hello-io/plugin-sdk/zalouser";
 import { z } from "zod";
 
 const groupConfigSchema = z.object({

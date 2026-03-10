@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/minimax-portal-auth",
+  "name": "@hello-io/minimax-portal-auth",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw MiniMax Portal OAuth provider plugin",
+  "description": "HelloIo MiniMax Portal OAuth provider plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

@@ -2,11 +2,11 @@
 // the agent reports a model id. This includes custom models.json entries.
 
 import { loadConfig } from "../config/config.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { HelloIoConfig } from "../config/config.js";
 import { computeBackoff, type BackoffPolicy } from "../infra/backoff.js";
 import { consumeRootOptionToken, FLAG_TERMINATOR } from "../infra/cli-root-options.js";
-import { resolveOpenClawAgentDir } from "./agent-paths.js";
-import { ensureOpenClawModelsJson } from "./models-config.js";
+import { resolveHelloIoAgentDir } from "./agent-paths.js";
+import { ensureHelloIoModelsJson } from "./models-config.js";
 
 type ModelEntry = { id: string; contextWindow?: number };
 type ModelRegistryLike = {
@@ -75,7 +75,7 @@ export function applyConfiguredContextWindows(params: {
 
 const MODEL_CACHE = new Map<string, number>();
 let loadPromise: Promise<void> | null = null;
-let configuredConfig: OpenClawConfig | undefined;
+let configuredConfig: HelloIoConfig | undefined;
 let configLoadFailures = 0;
 let nextConfigLoadAttemptAtMs = 0;
 
@@ -108,7 +108,7 @@ function shouldSkipEagerContextWindowWarmup(argv: string[] = process.argv): bool
   return primary === "config" && secondary === "validate";
 }
 
-function primeConfiguredContextWindows(): OpenClawConfig | undefined {
+function primeConfiguredContextWindows(): HelloIoConfig | undefined {
   if (configuredConfig) {
     return configuredConfig;
   }
@@ -146,14 +146,14 @@ function ensureContextWindowCacheLoaded(): Promise<void> {
 
   loadPromise = (async () => {
     try {
-      await ensureOpenClawModelsJson(cfg);
+      await ensureHelloIoModelsJson(cfg);
     } catch {
       // Continue with best-effort discovery/overrides.
     }
 
     try {
       const { discoverAuthStorage, discoverModels } = await import("./pi-model-discovery.js");
-      const agentDir = resolveOpenClawAgentDir();
+      const agentDir = resolveHelloIoAgentDir();
       const authStorage = discoverAuthStorage(agentDir);
       const modelRegistry = discoverModels(authStorage, agentDir) as unknown as ModelRegistryLike;
       const models =
@@ -194,7 +194,7 @@ if (!shouldSkipEagerContextWindowWarmup()) {
 }
 
 function resolveConfiguredModelParams(
-  cfg: OpenClawConfig | undefined,
+  cfg: HelloIoConfig | undefined,
   provider: string,
   model: string,
 ): Record<string, unknown> | undefined {
@@ -248,7 +248,7 @@ function isAnthropic1MModel(provider: string, model: string): boolean {
 }
 
 export function resolveContextTokensForModel(params: {
-  cfg?: OpenClawConfig;
+  cfg?: HelloIoConfig;
   provider?: string;
   model?: string;
   contextTokensOverride?: number;

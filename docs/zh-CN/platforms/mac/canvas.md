@@ -22,17 +22,17 @@ macOS 应用使用 `WKWebView` 嵌入一个智能体控制的 **Canvas 面板**�
 
 Canvas 状态存储在 Application Support 下：
 
-- `~/Library/Application Support/OpenClaw/canvas/<session>/...`
+- `~/Library/Application Support/HelloIo/canvas/<session>/...`
 
 Canvas 面板通过**自定义 URL 方案**提供这些文件：
 
-- `openclaw-canvas://<session>/<path>`
+- `hello-io-canvas://<session>/<path>`
 
 示例：
 
-- `openclaw-canvas://main/` → `<canvasRoot>/main/index.html`
-- `openclaw-canvas://main/assets/app.css` → `<canvasRoot>/main/assets/app.css`
-- `openclaw-canvas://main/widgets/todo/` → `<canvasRoot>/main/widgets/todo/index.html`
+- `hello-io-canvas://main/` → `<canvasRoot>/main/index.html`
+- `hello-io-canvas://main/assets/app.css` → `<canvasRoot>/main/assets/app.css`
+- `hello-io-canvas://main/widgets/todo/` → `<canvasRoot>/main/widgets/todo/index.html`
 
 如果根目录下没有 `index.html`，应用会显示一个**内置脚手架页面**。
 
@@ -57,10 +57,10 @@ Canvas 通过 **Gateway 网关 WebSocket** 暴露，因此智能体可以：
 CLI 示例：
 
 ```bash
-openclaw nodes canvas present --node <id>
-openclaw nodes canvas navigate --node <id> --url "/"
-openclaw nodes canvas eval --node <id> --js "document.title"
-openclaw nodes canvas snapshot --node <id>
+hello-io nodes canvas present --node <id>
+hello-io nodes canvas navigate --node <id> --url "/"
+hello-io nodes canvas eval --node <id> --js "document.title"
+hello-io nodes canvas snapshot --node <id>
 ```
 
 注意事项：
@@ -76,7 +76,7 @@ A2UI 由 Gateway 网关 canvas 主机托管并在 Canvas 面板内渲染。
 默认 A2UI 主机 URL：
 
 ```
-http://<gateway-host>:18793/__openclaw__/a2ui/
+http://<gateway-host>:18793/__hello-io__/a2ui/
 ```
 
 ### A2UI 命令（v0.8）
@@ -98,25 +98,25 @@ cat > /tmp/a2ui-v0.8.jsonl <<'EOFA2'
 {"beginRendering":{"surfaceId":"main","root":"root"}}
 EOFA2
 
-openclaw nodes canvas a2ui push --jsonl /tmp/a2ui-v0.8.jsonl --node <id>
+hello-io nodes canvas a2ui push --jsonl /tmp/a2ui-v0.8.jsonl --node <id>
 ```
 
 快速测试：
 
 ```bash
-openclaw nodes canvas a2ui push --node <id> --text "Hello from A2UI"
+hello-io nodes canvas a2ui push --node <id> --text "Hello from A2UI"
 ```
 
 ## 从 Canvas 触发智能体运行
 
 Canvas 可以通过深层链接触发新的智能体运行：
 
-- `openclaw://agent?...`
+- `hello-io://agent?...`
 
 示例（在 JS 中）：
 
 ```js
-window.location.href = "openclaw://agent?message=Review%20this%20design";
+window.location.href = "hello-io://agent?message=Review%20this%20design";
 ```
 
 除非提供有效密钥，否则应用会提示确认。

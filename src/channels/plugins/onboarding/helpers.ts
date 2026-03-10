@@ -2,7 +2,7 @@ import {
   promptSecretRefForOnboarding,
   resolveSecretInputModeForEnvSelection,
 } from "../../../commands/auth-choice.apply-helpers.js";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { HelloIoConfig } from "../../../config/config.js";
 import type { DmPolicy, GroupPolicy } from "../../../config/types.js";
 import type { SecretInput } from "../../../config/types.secrets.js";
 import { promptAccountId as promptAccountIdSdk } from "../../../plugin-sdk/onboarding.js";
@@ -122,12 +122,12 @@ export function resolveOnboardingAccountId(params: {
 }
 
 export async function resolveAccountIdForConfigure(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   prompter: WizardPrompter;
   label: string;
   accountOverride?: string;
   shouldPromptAccountIds: boolean;
-  listAccountIds: (cfg: OpenClawConfig) => string[];
+  listAccountIds: (cfg: HelloIoConfig) => string[];
   defaultAccountId: string;
 }): Promise<string> {
   const override = params.accountOverride?.trim();
@@ -146,11 +146,11 @@ export async function resolveAccountIdForConfigure(params: {
 }
 
 export function setAccountAllowFromForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: "imessage" | "signal";
   accountId: string;
   allowFrom: string[];
-}): OpenClawConfig {
+}): HelloIoConfig {
   const { cfg, channel, accountId, allowFrom } = params;
   return patchConfigForScopedAccount({
     cfg,
@@ -162,11 +162,11 @@ export function setAccountAllowFromForChannel(params: {
 }
 
 export function setTopLevelChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: string;
   allowFrom: string[];
   enabled?: boolean;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   return {
@@ -183,11 +183,11 @@ export function setTopLevelChannelAllowFrom(params: {
 }
 
 export function setTopLevelChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: string;
   dmPolicy: DmPolicy;
-  getAllowFrom?: (cfg: OpenClawConfig) => Array<string | number> | undefined;
-}): OpenClawConfig {
+  getAllowFrom?: (cfg: HelloIoConfig) => Array<string | number> | undefined;
+}): HelloIoConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   const existingAllowFrom =
@@ -210,11 +210,11 @@ export function setTopLevelChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setTopLevelChannelGroupPolicy(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: string;
   groupPolicy: GroupPolicy;
   enabled?: boolean;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const channelConfig =
     (params.cfg.channels?.[params.channel] as Record<string, unknown> | undefined) ?? {};
   return {
@@ -231,10 +231,10 @@ export function setTopLevelChannelGroupPolicy(params: {
 }
 
 export function setChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: "imessage" | "signal" | "telegram";
   dmPolicy: DmPolicy;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const { cfg, channel, dmPolicy } = params;
   const allowFrom =
     dmPolicy === "open" ? addWildcardAllowFrom(cfg.channels?.[channel]?.allowFrom) : undefined;
@@ -252,10 +252,10 @@ export function setChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setLegacyChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: LegacyDmChannel;
   dmPolicy: DmPolicy;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const channelConfig = (params.cfg.channels?.[params.channel] as
     | {
         allowFrom?: Array<string | number>;
@@ -279,10 +279,10 @@ export function setLegacyChannelDmPolicyWithAllowFrom(params: {
 }
 
 export function setLegacyChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: LegacyDmChannel;
   allowFrom: string[];
-}): OpenClawConfig {
+}): HelloIoConfig {
   return patchLegacyDmChannelConfig({
     cfg: params.cfg,
     channel: params.channel,
@@ -291,11 +291,11 @@ export function setLegacyChannelAllowFrom(params: {
 }
 
 export function setAccountGroupPolicyForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: "discord" | "slack";
   accountId: string;
   groupPolicy: GroupPolicy;
-}): OpenClawConfig {
+}): HelloIoConfig {
   return patchChannelConfigForAccount({
     cfg: params.cfg,
     channel: params.channel,
@@ -308,10 +308,10 @@ type AccountScopedChannel = "discord" | "slack" | "telegram" | "imessage" | "sig
 type LegacyDmChannel = "discord" | "slack";
 
 export function patchLegacyDmChannelConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: LegacyDmChannel;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const { cfg, channel, patch } = params;
   const channelConfig = (cfg.channels?.[channel] as Record<string, unknown> | undefined) ?? {};
   const dmConfig = (channelConfig.dm as Record<string, unknown> | undefined) ?? {};
@@ -332,10 +332,10 @@ export function patchLegacyDmChannelConfig(params: {
 }
 
 export function setOnboardingChannelEnabled(
-  cfg: OpenClawConfig,
+  cfg: HelloIoConfig,
   channel: AccountScopedChannel,
   enabled: boolean,
-): OpenClawConfig {
+): HelloIoConfig {
   const channelConfig = (cfg.channels?.[channel] as Record<string, unknown> | undefined) ?? {};
   return {
     ...cfg,
@@ -350,12 +350,12 @@ export function setOnboardingChannelEnabled(
 }
 
 function patchConfigForScopedAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: AccountScopedChannel;
   accountId: string;
   patch: Record<string, unknown>;
   ensureEnabled: boolean;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const { cfg, channel, accountId, patch, ensureEnabled } = params;
   const seededCfg =
     accountId === DEFAULT_ACCOUNT_ID
@@ -411,11 +411,11 @@ function patchConfigForScopedAccount(params: {
 }
 
 export function patchChannelConfigForAccount(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: AccountScopedChannel;
   accountId: string;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): HelloIoConfig {
   return patchConfigForScopedAccount({
     ...params,
     ensureEnabled: true,
@@ -423,7 +423,7 @@ export function patchChannelConfigForAccount(params: {
 }
 
 export function applySingleTokenPromptResult(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: "discord" | "telegram";
   accountId: string;
   tokenPatchKey: "token" | "botToken";
@@ -431,7 +431,7 @@ export function applySingleTokenPromptResult(params: {
     useEnv: boolean;
     token: SecretInput | null;
   };
-}): OpenClawConfig {
+}): HelloIoConfig {
   let next = params.cfg;
   if (params.tokenResult.useEnv) {
     next = patchChannelConfigForAccount({
@@ -516,7 +516,7 @@ export type SingleChannelSecretInputPromptResult =
   | { action: "set"; value: SecretInput; resolvedValue: string };
 
 export async function promptSingleChannelSecretInput(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   prompter: Pick<WizardPrompter, "confirm" | "text" | "select" | "note">;
   providerHint: string;
   credentialLabel: string;
@@ -535,7 +535,7 @@ export async function promptSingleChannelSecretInput(params: {
     copy: {
       modeMessage: `How do you want to provide this ${params.credentialLabel}?`,
       plaintextLabel: `Enter ${params.credentialLabel}`,
-      plaintextHint: "Stores the credential directly in OpenClaw config",
+      plaintextHint: "Stores the credential directly in HelloIo config",
       refLabel: "Use external secret provider",
       refHint: "Stores a reference to env or configured external secret providers",
     },
@@ -577,9 +577,9 @@ export async function promptSingleChannelSecretInput(params: {
     preferredEnvVar: params.preferredEnvVar,
     copy: {
       sourceMessage: `Where is this ${params.credentialLabel} stored?`,
-      envVarPlaceholder: params.preferredEnvVar ?? "OPENCLAW_SECRET",
+      envVarPlaceholder: params.preferredEnvVar ?? "HELLO_IO_SECRET",
       envVarFormatError:
-        'Use an env var name like "OPENCLAW_SECRET" (uppercase letters, numbers, underscores).',
+        'Use an env var name like "HELLO_IO_SECRET" (uppercase letters, numbers, underscores).',
       noProvidersMessage:
         "No file/exec secret providers are configured yet. Add one under secrets.providers, or select Environment variable.",
     },
@@ -594,7 +594,7 @@ export async function promptSingleChannelSecretInput(params: {
 type ParsedAllowFromResult = { entries: string[]; error?: string };
 
 export async function promptParsedAllowFromForScopedChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: "imessage" | "signal";
   accountId?: string;
   defaultAccountId: string;
@@ -605,10 +605,10 @@ export async function promptParsedAllowFromForScopedChannel(params: {
   placeholder: string;
   parseEntries: (raw: string) => ParsedAllowFromResult;
   getExistingAllowFrom: (params: {
-    cfg: OpenClawConfig;
+    cfg: HelloIoConfig;
     accountId: string;
   }) => Array<string | number>;
-}): Promise<OpenClawConfig> {
+}): Promise<HelloIoConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: params.defaultAccountId,
@@ -731,7 +731,7 @@ export async function promptResolvedAllowFrom(params: {
 }
 
 export async function promptLegacyChannelAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channel: LegacyDmChannel;
   prompter: WizardPrompter;
   existing: Array<string | number>;
@@ -743,7 +743,7 @@ export async function promptLegacyChannelAllowFrom(params: {
   parseId: (value: string) => string | null;
   invalidWithoutTokenNote: string;
   resolveEntries: (params: { token: string; entries: string[] }) => Promise<AllowFromResolution[]>;
-}): Promise<OpenClawConfig> {
+}): Promise<HelloIoConfig> {
   await params.prompter.note(params.noteLines.join("\n"), params.noteTitle);
   const unique = await promptResolvedAllowFrom({
     prompter: params.prompter,

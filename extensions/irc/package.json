@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/irc",
+  "name": "@hello-io/irc",
   "version": "2026.3.9",
-  "description": "OpenClaw IRC channel plugin",
+  "description": "HelloIo IRC channel plugin",
   "type": "module",
   "dependencies": {
     "zod": "^4.3.6"
   },
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

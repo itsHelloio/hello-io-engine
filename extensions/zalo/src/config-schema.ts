@@ -1,8 +1,8 @@
 import {
   AllowFromEntrySchema,
   buildCatchallMultiAccountChannelSchema,
-} from "openclaw/plugin-sdk/compat";
-import { MarkdownConfigSchema } from "openclaw/plugin-sdk/zalo";
+} from "hello-io/plugin-sdk/compat";
+import { MarkdownConfigSchema } from "hello-io/plugin-sdk/zalo";
 import { z } from "zod";
 import { buildSecretInputSchema } from "./secret-input.js";
 

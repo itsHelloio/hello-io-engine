@@ -1,11 +1,11 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/tlon";
+import type { HelloIoConfig } from "hello-io/plugin-sdk/tlon";
 import {
   formatDocsLink,
   resolveAccountIdForConfigure,
   DEFAULT_ACCOUNT_ID,
   type ChannelOnboardingAdapter,
   type WizardPrompter,
-} from "openclaw/plugin-sdk/tlon";
+} from "hello-io/plugin-sdk/tlon";
 import { buildTlonAccountFields } from "./account-fields.js";
 import type { TlonResolvedAccount } from "./types.js";
 import { listTlonAccountIds, resolveTlonAccount } from "./types.js";
@@ -18,7 +18,7 @@ function isConfigured(account: TlonResolvedAccount): boolean {
 }
 
 function applyAccountConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   accountId: string;
   input: {
     name?: string;
@@ -30,7 +30,7 @@ function applyAccountConfig(params: {
     dmAllowlist?: string[];
     autoDiscoverChannels?: boolean;
   };
-}): OpenClawConfig {
+}): HelloIoConfig {
   const { cfg, accountId, input } = params;
   const useDefault = accountId === DEFAULT_ACCOUNT_ID;
   const base = cfg.channels?.tlon ?? {};

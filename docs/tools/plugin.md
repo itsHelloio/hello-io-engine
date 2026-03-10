@@ -1,5 +1,5 @@
 ---
-summary: "OpenClaw plugins/extensions: discovery, config, and safety"
+summary: "HelloIo plugins/extensions: discovery, config, and safety"
 read_when:
   - Adding or modifying plugins/extensions
   - Documenting plugin install or load rules
@@ -10,11 +10,11 @@ title: "Plugins"
 
 ## Quick start (new to plugins?)
 
-A plugin is just a **small code module** that extends OpenClaw with extra
+A plugin is just a **small code module** that extends HelloIo with extra
 features (commands, tools, and Gateway RPC).
 
 Most of the time, you’ll use plugins when you want a feature that’s not built
-into core OpenClaw yet (or you want to keep optional features out of your main
+into core HelloIo yet (or you want to keep optional features out of your main
 install).
 
 Fast path:
@@ -22,20 +22,20 @@ Fast path:
 1. See what’s already loaded:
 
 ```bash
-openclaw plugins list
+hello-io plugins list
 ```
 
 2. Install an official plugin (example: Voice Call):
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+hello-io plugins install @hello-io/voice-call
 ```
 
 Npm specs are **registry-only** (package name + optional **exact version** or
 **dist-tag**). Git/URL/file specs and semver ranges are rejected.
 
 Bare specs and `@latest` stay on the stable track. If npm resolves either of
-those to a prerelease, OpenClaw stops and asks you to opt in explicitly with a
+those to a prerelease, HelloIo stops and asks you to opt in explicitly with a
 prerelease tag such as `@beta`/`@rc` or an exact prerelease version.
 
 3. Restart the Gateway, then configure under `plugins.entries.<id>.config`.
@@ -45,21 +45,21 @@ Looking for third-party listings? See [Community plugins](/plugins/community).
 
 ## Available plugins (official)
 
-- Microsoft Teams is plugin-only as of 2026.1.15; install `@openclaw/msteams` if you use Teams.
+- Microsoft Teams is plugin-only as of 2026.1.15; install `@hello-io/msteams` if you use Teams.
 - Memory (Core) — bundled memory search plugin (enabled by default via `plugins.slots.memory`)
 - Memory (LanceDB) — bundled long-term memory plugin (auto-recall/capture; set `plugins.slots.memory = "memory-lancedb"`)
-- [Voice Call](/plugins/voice-call) — `@openclaw/voice-call`
-- [Zalo Personal](/plugins/zalouser) — `@openclaw/zalouser`
-- [Matrix](/channels/matrix) — `@openclaw/matrix`
-- [Nostr](/channels/nostr) — `@openclaw/nostr`
-- [Zalo](/channels/zalo) — `@openclaw/zalo`
-- [Microsoft Teams](/channels/msteams) — `@openclaw/msteams`
+- [Voice Call](/plugins/voice-call) — `@hello-io/voice-call`
+- [Zalo Personal](/plugins/zalouser) — `@hello-io/zalouser`
+- [Matrix](/channels/matrix) — `@hello-io/matrix`
+- [Nostr](/channels/nostr) — `@hello-io/nostr`
+- [Zalo](/channels/zalo) — `@hello-io/zalo`
+- [Microsoft Teams](/channels/msteams) — `@hello-io/msteams`
 - Google Antigravity OAuth (provider auth) — bundled as `google-antigravity-auth` (disabled by default)
 - Gemini CLI OAuth (provider auth) — bundled as `google-gemini-cli-auth` (disabled by default)
 - Qwen OAuth (provider auth) — bundled as `qwen-portal-auth` (disabled by default)
 - Copilot Proxy (provider auth) — local VS Code Copilot Proxy bridge; distinct from built-in `github-copilot` device login (bundled, disabled by default)
 
-OpenClaw plugins are **TypeScript modules** loaded at runtime via jiti. **Config
+HelloIo plugins are **TypeScript modules** loaded at runtime via jiti. **Config
 validation does not execute plugin code**; it uses the plugin manifest and JSON
 Schema instead. See [Plugin manifest](/plugins/manifest).
 
@@ -84,7 +84,7 @@ Plugins can access selected core helpers via `api.runtime`. For telephony TTS:
 
 ```ts
 const result = await api.runtime.tts.textToSpeechTelephony({
-  text: "Hello from OpenClaw",
+  text: "Hello from HelloIo",
   cfg: api.config,
 });
 ```
@@ -145,41 +145,41 @@ Notes:
 
 ## Plugin SDK import paths
 
-Use SDK subpaths instead of the monolithic `openclaw/plugin-sdk` import when
+Use SDK subpaths instead of the monolithic `hello-io/plugin-sdk` import when
 authoring plugins:
 
-- `openclaw/plugin-sdk/core` for generic plugin APIs, provider auth types, and shared helpers.
-- `openclaw/plugin-sdk/compat` for bundled/internal plugin code that needs broader shared runtime helpers than `core`.
-- `openclaw/plugin-sdk/telegram` for Telegram channel plugins.
-- `openclaw/plugin-sdk/discord` for Discord channel plugins.
-- `openclaw/plugin-sdk/slack` for Slack channel plugins.
-- `openclaw/plugin-sdk/signal` for Signal channel plugins.
-- `openclaw/plugin-sdk/imessage` for iMessage channel plugins.
-- `openclaw/plugin-sdk/whatsapp` for WhatsApp channel plugins.
-- `openclaw/plugin-sdk/line` for LINE channel plugins.
-- `openclaw/plugin-sdk/msteams` for the bundled Microsoft Teams plugin surface.
+- `hello-io/plugin-sdk/core` for generic plugin APIs, provider auth types, and shared helpers.
+- `hello-io/plugin-sdk/compat` for bundled/internal plugin code that needs broader shared runtime helpers than `core`.
+- `hello-io/plugin-sdk/telegram` for Telegram channel plugins.
+- `hello-io/plugin-sdk/discord` for Discord channel plugins.
+- `hello-io/plugin-sdk/slack` for Slack channel plugins.
+- `hello-io/plugin-sdk/signal` for Signal channel plugins.
+- `hello-io/plugin-sdk/imessage` for iMessage channel plugins.
+- `hello-io/plugin-sdk/whatsapp` for WhatsApp channel plugins.
+- `hello-io/plugin-sdk/line` for LINE channel plugins.
+- `hello-io/plugin-sdk/msteams` for the bundled Microsoft Teams plugin surface.
 - Bundled extension-specific subpaths are also available:
-  `openclaw/plugin-sdk/acpx`, `openclaw/plugin-sdk/bluebubbles`,
-  `openclaw/plugin-sdk/copilot-proxy`, `openclaw/plugin-sdk/device-pair`,
-  `openclaw/plugin-sdk/diagnostics-otel`, `openclaw/plugin-sdk/diffs`,
-  `openclaw/plugin-sdk/feishu`,
-  `openclaw/plugin-sdk/google-gemini-cli-auth`, `openclaw/plugin-sdk/googlechat`,
-  `openclaw/plugin-sdk/irc`, `openclaw/plugin-sdk/llm-task`,
-  `openclaw/plugin-sdk/lobster`, `openclaw/plugin-sdk/matrix`,
-  `openclaw/plugin-sdk/mattermost`, `openclaw/plugin-sdk/memory-core`,
-  `openclaw/plugin-sdk/memory-lancedb`,
-  `openclaw/plugin-sdk/minimax-portal-auth`,
-  `openclaw/plugin-sdk/nextcloud-talk`, `openclaw/plugin-sdk/nostr`,
-  `openclaw/plugin-sdk/open-prose`, `openclaw/plugin-sdk/phone-control`,
-  `openclaw/plugin-sdk/qwen-portal-auth`, `openclaw/plugin-sdk/synology-chat`,
-  `openclaw/plugin-sdk/talk-voice`, `openclaw/plugin-sdk/test-utils`,
-  `openclaw/plugin-sdk/thread-ownership`, `openclaw/plugin-sdk/tlon`,
-  `openclaw/plugin-sdk/twitch`, `openclaw/plugin-sdk/voice-call`,
-  `openclaw/plugin-sdk/zalo`, and `openclaw/plugin-sdk/zalouser`.
+  `hello-io/plugin-sdk/acpx`, `hello-io/plugin-sdk/bluebubbles`,
+  `hello-io/plugin-sdk/copilot-proxy`, `hello-io/plugin-sdk/device-pair`,
+  `hello-io/plugin-sdk/diagnostics-otel`, `hello-io/plugin-sdk/diffs`,
+  `hello-io/plugin-sdk/feishu`,
+  `hello-io/plugin-sdk/google-gemini-cli-auth`, `hello-io/plugin-sdk/googlechat`,
+  `hello-io/plugin-sdk/irc`, `hello-io/plugin-sdk/llm-task`,
+  `hello-io/plugin-sdk/lobster`, `hello-io/plugin-sdk/matrix`,
+  `hello-io/plugin-sdk/mattermost`, `hello-io/plugin-sdk/memory-core`,
+  `hello-io/plugin-sdk/memory-lancedb`,
+  `hello-io/plugin-sdk/minimax-portal-auth`,
+  `hello-io/plugin-sdk/nextcloud-talk`, `hello-io/plugin-sdk/nostr`,
+  `hello-io/plugin-sdk/open-prose`, `hello-io/plugin-sdk/phone-control`,
+  `hello-io/plugin-sdk/qwen-portal-auth`, `hello-io/plugin-sdk/synology-chat`,
+  `hello-io/plugin-sdk/talk-voice`, `hello-io/plugin-sdk/test-utils`,
+  `hello-io/plugin-sdk/thread-ownership`, `hello-io/plugin-sdk/tlon`,
+  `hello-io/plugin-sdk/twitch`, `hello-io/plugin-sdk/voice-call`,
+  `hello-io/plugin-sdk/zalo`, and `hello-io/plugin-sdk/zalouser`.
 
 Compatibility note:
 
-- `openclaw/plugin-sdk` remains supported for existing external plugins.
+- `hello-io/plugin-sdk` remains supported for existing external plugins.
 - New and migrated bundled plugins should use channel or extension-specific
   subpaths; use `core` for generic surfaces and `compat` only when broader
   shared helpers are required.
@@ -193,8 +193,8 @@ Why:
 
 - `resolveAccount(...)` is the runtime path. It is allowed to assume credentials
   are fully materialized and can fail fast when required secrets are missing.
-- Read-only command paths such as `openclaw status`, `openclaw status --all`,
-  `openclaw channels status`, `openclaw channels resolve`, and doctor/config
+- Read-only command paths such as `hello-io status`, `hello-io status --all`,
+  `hello-io channels status`, `hello-io channels resolve`, and doctor/config
   repair flows should not need to materialize runtime credentials just to
   describe configuration.
 
@@ -220,14 +220,14 @@ Performance note:
 
 - Plugin discovery and manifest metadata use short in-process caches to reduce
   bursty startup/reload work.
-- Set `OPENCLAW_DISABLE_PLUGIN_DISCOVERY_CACHE=1` or
-  `OPENCLAW_DISABLE_PLUGIN_MANIFEST_CACHE=1` to disable these caches.
-- Tune cache windows with `OPENCLAW_PLUGIN_DISCOVERY_CACHE_MS` and
-  `OPENCLAW_PLUGIN_MANIFEST_CACHE_MS`.
+- Set `HELLO_IO_DISABLE_PLUGIN_DISCOVERY_CACHE=1` or
+  `HELLO_IO_DISABLE_PLUGIN_MANIFEST_CACHE=1` to disable these caches.
+- Tune cache windows with `HELLO_IO_PLUGIN_DISCOVERY_CACHE_MS` and
+  `HELLO_IO_PLUGIN_MANIFEST_CACHE_MS`.
 
 ## Discovery & precedence
 
-OpenClaw scans, in order:
+HelloIo scans, in order:
 
 1. Config paths
 
@@ -235,20 +235,20 @@ OpenClaw scans, in order:
 
 2. Workspace extensions
 
-- `<workspace>/.openclaw/extensions/*.ts`
-- `<workspace>/.openclaw/extensions/*/index.ts`
+- `<workspace>/.hello-io/extensions/*.ts`
+- `<workspace>/.hello-io/extensions/*/index.ts`
 
 3. Global extensions
 
-- `~/.openclaw/extensions/*.ts`
-- `~/.openclaw/extensions/*/index.ts`
+- `~/.hello-io/extensions/*.ts`
+- `~/.hello-io/extensions/*/index.ts`
 
-4. Bundled extensions (shipped with OpenClaw, mostly disabled by default)
+4. Bundled extensions (shipped with HelloIo, mostly disabled by default)
 
-- `<openclaw>/extensions/*`
+- `<hello-io>/extensions/*`
 
 Most bundled plugins must be enabled explicitly via
-`plugins.entries.<id>.enabled` or `openclaw plugins enable <id>`.
+`plugins.entries.<id>.enabled` or `hello-io plugins enable <id>`.
 
 Default-on bundled plugin exceptions:
 
@@ -261,14 +261,14 @@ Installed plugins are enabled by default, but can be disabled the same way.
 
 Hardening notes:
 
-- If `plugins.allow` is empty and non-bundled plugins are discoverable, OpenClaw logs a startup warning with plugin ids and sources.
-- Candidate paths are safety-checked before discovery admission. OpenClaw blocks candidates when:
+- If `plugins.allow` is empty and non-bundled plugins are discoverable, HelloIo logs a startup warning with plugin ids and sources.
+- Candidate paths are safety-checked before discovery admission. HelloIo blocks candidates when:
   - extension entry resolves outside plugin root (including symlink/path traversal escapes),
   - plugin root/source path is world-writable,
   - path ownership is suspicious for non-bundled plugins (POSIX owner is neither current uid nor root).
 - Loaded non-bundled plugins without install/load-path provenance emit a warning so you can pin trust (`plugins.allow`) or install tracking (`plugins.installs`).
 
-Each plugin must include a `openclaw.plugin.json` file in its root. If a path
+Each plugin must include a `hello-io.plugin.json` file in its root. If a path
 points at a file, the plugin root is the file's directory and must contain the
 manifest.
 
@@ -277,12 +277,12 @@ wins and lower-precedence copies are ignored.
 
 ### Package packs
 
-A plugin directory may include a `package.json` with `openclaw.extensions`:
+A plugin directory may include a `package.json` with `hello-io.extensions`:
 
 ```json
 {
   "name": "my-pack",
-  "openclaw": {
+  "hello-io": {
     "extensions": ["./src/safety.ts", "./src/tools.ts"]
   }
 }
@@ -294,25 +294,25 @@ becomes `name/<fileBase>`.
 If your plugin imports npm deps, install them in that directory so
 `node_modules` is available (`npm install` / `pnpm install`).
 
-Security guardrail: every `openclaw.extensions` entry must stay inside the plugin
+Security guardrail: every `hello-io.extensions` entry must stay inside the plugin
 directory after symlink resolution. Entries that escape the package directory are
 rejected.
 
-Security note: `openclaw plugins install` installs plugin dependencies with
+Security note: `hello-io plugins install` installs plugin dependencies with
 `npm install --ignore-scripts` (no lifecycle scripts). Keep plugin dependency
 trees "pure JS/TS" and avoid packages that require `postinstall` builds.
 
 ### Channel catalog metadata
 
-Channel plugins can advertise onboarding metadata via `openclaw.channel` and
-install hints via `openclaw.install`. This keeps the core catalog data-free.
+Channel plugins can advertise onboarding metadata via `hello-io.channel` and
+install hints via `hello-io.install`. This keeps the core catalog data-free.
 
 Example:
 
 ```json
 {
-  "name": "@openclaw/nextcloud-talk",
-  "openclaw": {
+  "name": "@hello-io/nextcloud-talk",
+  "hello-io": {
     "extensions": ["./index.ts"],
     "channel": {
       "id": "nextcloud-talk",
@@ -325,7 +325,7 @@ Example:
       "aliases": ["nc-talk", "nc"]
     },
     "install": {
-      "npmSpec": "@openclaw/nextcloud-talk",
+      "npmSpec": "@hello-io/nextcloud-talk",
       "localPath": "extensions/nextcloud-talk",
       "defaultChoice": "npm"
     }
@@ -333,16 +333,16 @@ Example:
 }
 ```
 
-OpenClaw can also merge **external channel catalogs** (for example, an MPM
+HelloIo can also merge **external channel catalogs** (for example, an MPM
 registry export). Drop a JSON file at one of:
 
-- `~/.openclaw/mpm/plugins.json`
-- `~/.openclaw/mpm/catalog.json`
-- `~/.openclaw/plugins/catalog.json`
+- `~/.hello-io/mpm/plugins.json`
+- `~/.hello-io/mpm/catalog.json`
+- `~/.hello-io/plugins/catalog.json`
 
-Or point `OPENCLAW_PLUGIN_CATALOG_PATHS` (or `OPENCLAW_MPM_CATALOG_PATHS`) at
+Or point `HELLO_IO_PLUGIN_CATALOG_PATHS` (or `HELLO_IO_MPM_CATALOG_PATHS`) at
 one or more JSON files (comma/semicolon/`PATH`-delimited). Each file should
-contain `{ "entries": [ { "name": "@scope/pkg", "openclaw": { "channel": {...}, "install": {...} } } ] }`.
+contain `{ "entries": [ { "name": "@scope/pkg", "hello-io": { "channel": {...}, "install": {...} } } ] }`.
 
 ## Plugin IDs
 
@@ -351,7 +351,7 @@ Default plugin ids:
 - Package packs: `package.json` `name`
 - Standalone file: file base name (`~/.../voice-call.ts` → `voice-call`)
 
-If a plugin exports `id`, OpenClaw uses it but warns when it doesn’t match the
+If a plugin exports `id`, HelloIo uses it but warns when it doesn’t match the
 configured id.
 
 ## Config
@@ -387,7 +387,7 @@ Validation rules (strict):
 - Unknown `channels.<id>` keys are **errors** unless a plugin manifest declares
   the channel id.
 - Plugin config is validated using the JSON Schema embedded in
-  `openclaw.plugin.json` (`configSchema`).
+  `hello-io.plugin.json` (`configSchema`).
 - If a plugin is disabled, its config is preserved and a **warning** is emitted.
 
 ## Plugin slots (exclusive categories)
@@ -428,7 +428,7 @@ pipeline rather than just add memory search or hooks.
 
 The Control UI uses `config.schema` (JSON Schema + `uiHints`) to render better forms.
 
-OpenClaw augments `uiHints` at runtime based on discovered plugins:
+HelloIo augments `uiHints` at runtime based on discovered plugins:
 
 - Adds per-plugin labels for `plugins.entries.<id>` / `.enabled` / `.config`
 - Merges optional plugin-provided config field hints under:
@@ -460,26 +460,26 @@ Example:
 ## CLI
 
 ```bash
-openclaw plugins list
-openclaw plugins info <id>
-openclaw plugins install <path>                 # copy a local file/dir into ~/.openclaw/extensions/<id>
-openclaw plugins install ./extensions/voice-call # relative path ok
-openclaw plugins install ./plugin.tgz           # install from a local tarball
-openclaw plugins install ./plugin.zip           # install from a local zip
-openclaw plugins install -l ./extensions/voice-call # link (no copy) for dev
-openclaw plugins install @openclaw/voice-call # install from npm
-openclaw plugins install @openclaw/voice-call --pin # store exact resolved name@version
-openclaw plugins update <id>
-openclaw plugins update --all
-openclaw plugins enable <id>
-openclaw plugins disable <id>
-openclaw plugins doctor
+hello-io plugins list
+hello-io plugins info <id>
+hello-io plugins install <path>                 # copy a local file/dir into ~/.hello-io/extensions/<id>
+hello-io plugins install ./extensions/voice-call # relative path ok
+hello-io plugins install ./plugin.tgz           # install from a local tarball
+hello-io plugins install ./plugin.zip           # install from a local zip
+hello-io plugins install -l ./extensions/voice-call # link (no copy) for dev
+hello-io plugins install @hello-io/voice-call # install from npm
+hello-io plugins install @hello-io/voice-call --pin # store exact resolved name@version
+hello-io plugins update <id>
+hello-io plugins update --all
+hello-io plugins enable <id>
+hello-io plugins disable <id>
+hello-io plugins doctor
 ```
 
 `plugins update` only works for npm installs tracked under `plugins.installs`.
-If stored integrity metadata changes between updates, OpenClaw warns and asks for confirmation (use global `--yes` to bypass prompts).
+If stored integrity metadata changes between updates, HelloIo warns and asks for confirmation (use global `--yes` to bypass prompts).
 
-Plugins may also register their own top‑level commands (example: `openclaw voicecall`).
+Plugins may also register their own top‑level commands (example: `hello-io voicecall`).
 
 ## Plugin API (overview)
 
@@ -545,8 +545,8 @@ Notes:
 
 - Register hooks explicitly via `api.registerHook(...)`.
 - Hook eligibility rules still apply (OS/bins/env/config requirements).
-- Plugin-managed hooks show up in `openclaw hooks list` with `plugin:<id>`.
-- You cannot enable/disable plugin-managed hooks via `openclaw hooks`; enable/disable the plugin instead.
+- Plugin-managed hooks show up in `hello-io hooks list` with `plugin:<id>`.
+- You cannot enable/disable plugin-managed hooks via `hello-io hooks`; enable/disable the plugin instead.
 
 ### Agent lifecycle hooks (`api.on`)
 
@@ -575,7 +575,7 @@ Important hooks for prompt construction:
 Core-enforced hook policy:
 
 - Operators can disable prompt mutation hooks per plugin via `plugins.entries.<id>.hooks.allowPromptInjection: false`.
-- When disabled, OpenClaw blocks `before_prompt_build` and ignores prompt-mutating fields returned from legacy `before_agent_start` while preserving legacy `modelOverride` and `providerOverride`.
+- When disabled, HelloIo blocks `before_prompt_build` and ignores prompt-mutating fields returned from legacy `before_agent_start` while preserving legacy `modelOverride` and `providerOverride`.
 
 `before_prompt_build` result fields:
 
@@ -604,12 +604,12 @@ Migration guidance:
 ## Provider plugins (model auth)
 
 Plugins can register **model provider auth** flows so users can run OAuth or
-API-key setup inside OpenClaw (no external scripts needed).
+API-key setup inside HelloIo (no external scripts needed).
 
 Register a provider via `api.registerProvider(...)`. Each provider exposes one
 or more auth methods (OAuth, API key, device code, etc.). These methods power:
 
-- `openclaw models auth login --provider <id> [--method <id>]`
+- `hello-io models auth login --provider <id> [--method <id>]`
 
 Example:
 
@@ -858,7 +858,7 @@ Command handler context:
 - `isAuthorizedSender`: Whether the sender is an authorized user
 - `args`: Arguments passed after the command (if `acceptsArgs: true`)
 - `commandBody`: The full command text
-- `config`: The current OpenClaw config
+- `config`: The current HelloIo config
 
 Command options:
 
@@ -922,14 +922,14 @@ it’s present in your workspace/managed skills locations.
 
 Recommended packaging:
 
-- Main package: `openclaw` (this repo)
-- Plugins: separate npm packages under `@openclaw/*` (example: `@openclaw/voice-call`)
+- Main package: `hello-io` (this repo)
+- Plugins: separate npm packages under `@hello-io/*` (example: `@hello-io/voice-call`)
 
 Publishing contract:
 
-- Plugin `package.json` must include `openclaw.extensions` with one or more entry files.
+- Plugin `package.json` must include `hello-io.extensions` with one or more entry files.
 - Entry files can be `.js` or `.ts` (jiti loads TS at runtime).
-- `openclaw plugins install <npm-spec>` uses `npm pack`, extracts into `~/.openclaw/extensions/<id>/`, and enables it in config.
+- `hello-io plugins install <npm-spec>` uses `npm pack`, extracts into `~/.hello-io/extensions/<id>/`, and enables it in config.
 - Config key stability: scoped packages are normalized to the **unscoped** id for `plugins.entries.*`.
 
 ## Example plugin: Voice Call
@@ -938,7 +938,7 @@ This repo includes a voice‑call plugin (Twilio or log fallback):
 
 - Source: `extensions/voice-call`
 - Skill: `skills/voice-call`
-- CLI: `openclaw voicecall start|status`
+- CLI: `hello-io voicecall start|status`
 - Tool: `voice_call`
 - RPC: `voicecall.start`, `voicecall.status`
 - Config (twilio): `provider: "twilio"` + `twilio.accountSid/authToken/from` (optional `statusCallbackUrl`, `twimlUrl`)
@@ -959,4 +959,4 @@ Plugins run in-process with the Gateway. Treat them as trusted code:
 Plugins can (and should) ship tests:
 
 - In-repo plugins can keep Vitest tests under `src/**` (example: `src/plugins/voice-call.plugin.test.ts`).
-- Separately published plugins should run their own CI (lint/build/test) and validate `openclaw.extensions` points at the built entrypoint (`dist/index.js`).
+- Separately published plugins should run their own CI (lint/build/test) and validate `hello-io.extensions` points at the built entrypoint (`dist/index.js`).

@@ -1,6 +1,6 @@
 import path from "node:path";
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk/diffs";
-import { resolvePreferredOpenClawTmpDir } from "openclaw/plugin-sdk/diffs";
+import type { HelloIoPluginApi } from "hello-io/plugin-sdk/diffs";
+import { resolvePreferredHelloIoTmpDir } from "hello-io/plugin-sdk/diffs";
 import {
   diffsPluginConfigSchema,
   resolveDiffsPluginDefaults,
@@ -16,11 +16,11 @@ const plugin = {
   name: "Diffs",
   description: "Read-only diff viewer and PNG/PDF renderer for agents.",
   configSchema: diffsPluginConfigSchema,
-  register(api: OpenClawPluginApi) {
+  register(api: HelloIoPluginApi) {
     const defaults = resolveDiffsPluginDefaults(api.pluginConfig);
     const security = resolveDiffsPluginSecurity(api.pluginConfig);
     const store = new DiffArtifactStore({
-      rootDir: path.join(resolvePreferredOpenClawTmpDir(), "openclaw-diffs"),
+      rootDir: path.join(resolvePreferredHelloIoTmpDir(), "hello-io-diffs"),
       logger: api.logger,
     });
 

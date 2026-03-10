@@ -1,17 +1,17 @@
-# @openclaw/zalo
+# @hello-io/zalo
 
-Zalo channel plugin for OpenClaw (Bot API).
+Zalo channel plugin for HelloIo (Bot API).
 
 ## Install (local checkout)
 
 ```bash
-openclaw plugins install ./extensions/zalo
+hello-io plugins install ./extensions/zalo
 ```
 
 ## Install (npm)
 
 ```bash
-openclaw plugins install @openclaw/zalo
+hello-io plugins install @hello-io/zalo
 ```
 
 Onboarding: select Zalo and confirm the install prompt to fetch the plugin automatically.

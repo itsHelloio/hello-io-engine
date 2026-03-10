@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/imessage",
+  "name": "@hello-io/imessage",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw iMessage channel plugin",
+  "description": "HelloIo iMessage channel plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,6 +1,6 @@
-# @openclaw/voice-call
+# @hello-io/voice-call
 
-Official Voice Call plugin for **OpenClaw**.
+Official Voice Call plugin for **HelloIo**.
 
 Providers:
 
@@ -9,15 +9,15 @@ Providers:
 - **Plivo** (Voice API + XML transfer + GetInput speech)
 - **Mock** (dev/no network)
 
-Docs: `https://docs.openclaw.ai/plugins/voice-call`
-Plugin system: `https://docs.openclaw.ai/plugin`
+Docs: `https://docs.hello-io.ai/plugins/voice-call`
+Plugin system: `https://docs.hello-io.ai/plugin`
 
 ## Install (local dev)
 
-### Option A: install via OpenClaw (recommended)
+### Option A: install via HelloIo (recommended)
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+hello-io plugins install @hello-io/voice-call
 ```
 
 Restart the Gateway afterwards.
@@ -25,9 +25,9 @@ Restart the Gateway afterwards.
 ### Option B: copy into your global extensions folder (dev)
 
 ```bash
-mkdir -p ~/.openclaw/extensions
-cp -R extensions/voice-call ~/.openclaw/extensions/voice-call
-cd ~/.openclaw/extensions/voice-call && pnpm install
+mkdir -p ~/.hello-io/extensions
+cp -R extensions/voice-call ~/.hello-io/extensions/voice-call
+cd ~/.hello-io/extensions/voice-call && pnpm install
 ```
 
 ## Config
@@ -143,13 +143,13 @@ Notes:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
-openclaw voicecall continue --call-id <id> --message "Any questions?"
-openclaw voicecall speak --call-id <id> --message "One moment"
-openclaw voicecall end --call-id <id>
-openclaw voicecall status --call-id <id>
-openclaw voicecall tail
-openclaw voicecall expose --mode funnel
+hello-io voicecall call --to "+15555550123" --message "Hello from HelloIo"
+hello-io voicecall continue --call-id <id> --message "Any questions?"
+hello-io voicecall speak --call-id <id> --message "One moment"
+hello-io voicecall end --call-id <id>
+hello-io voicecall status --call-id <id>
+hello-io voicecall tail
+hello-io voicecall expose --mode funnel
 ```
 
 ## Tool

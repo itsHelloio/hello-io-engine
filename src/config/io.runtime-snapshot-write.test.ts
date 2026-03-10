@@ -11,9 +11,9 @@ import {
   setRuntimeConfigSnapshot,
   writeConfigFile,
 } from "./io.js";
-import type { OpenClawConfig } from "./types.js";
+import type { HelloIoConfig } from "./types.js";
 
-function createSourceConfig(): OpenClawConfig {
+function createSourceConfig(): HelloIoConfig {
   return {
     models: {
       providers: {
@@ -27,7 +27,7 @@ function createSourceConfig(): OpenClawConfig {
   };
 }
 
-function createRuntimeConfig(): OpenClawConfig {
+function createRuntimeConfig(): HelloIoConfig {
   return {
     models: {
       providers: {
@@ -49,7 +49,7 @@ function resetRuntimeConfigState(): void {
 
 describe("runtime config snapshot writes", () => {
   it("returns the source snapshot when runtime snapshot is active", async () => {
-    await withTempHome("openclaw-config-runtime-source-", async () => {
+    await withTempHome("hello-io-config-runtime-source-", async () => {
       const sourceConfig = createSourceConfig();
       const runtimeConfig = createRuntimeConfig();
       try {
@@ -71,8 +71,8 @@ describe("runtime config snapshot writes", () => {
   });
 
   it("preserves source secret refs when writeConfigFile receives runtime-resolved config", async () => {
-    await withTempHome("openclaw-config-runtime-write-", async (home) => {
-      const configPath = path.join(home, ".openclaw", "openclaw.json");
+    await withTempHome("hello-io-config-runtime-write-", async (home) => {
+      const configPath = path.join(home, ".hello-io", "hello-io.json");
       const sourceConfig = createSourceConfig();
       const runtimeConfig = createRuntimeConfig();
 
@@ -100,9 +100,9 @@ describe("runtime config snapshot writes", () => {
   });
 
   it("refreshes the runtime snapshot after writes so follow-up reads see persisted changes", async () => {
-    await withTempHome("openclaw-config-runtime-write-refresh-", async (home) => {
-      const configPath = path.join(home, ".openclaw", "openclaw.json");
-      const sourceConfig: OpenClawConfig = {
+    await withTempHome("hello-io-config-runtime-write-refresh-", async (home) => {
+      const configPath = path.join(home, ".hello-io", "hello-io.json");
+      const sourceConfig: HelloIoConfig = {
         models: {
           providers: {
             openai: {
@@ -113,7 +113,7 @@ describe("runtime config snapshot writes", () => {
           },
         },
       };
-      const runtimeConfig: OpenClawConfig = {
+      const runtimeConfig: HelloIoConfig = {
         models: {
           providers: {
             openai: {
@@ -124,7 +124,7 @@ describe("runtime config snapshot writes", () => {
           },
         },
       };
-      const nextRuntimeConfig: OpenClawConfig = {
+      const nextRuntimeConfig: HelloIoConfig = {
         ...runtimeConfig,
         gateway: { auth: { mode: "token" as const } },
       };
@@ -173,11 +173,11 @@ describe("runtime config snapshot writes", () => {
   });
 
   it("keeps the last-known-good runtime snapshot active while a specialized refresh is pending", async () => {
-    await withTempHome("openclaw-config-runtime-refresh-pending-", async (home) => {
-      const configPath = path.join(home, ".openclaw", "openclaw.json");
+    await withTempHome("hello-io-config-runtime-refresh-pending-", async (home) => {
+      const configPath = path.join(home, ".hello-io", "hello-io.json");
       const sourceConfig = createSourceConfig();
       const runtimeConfig = createRuntimeConfig();
-      const nextRuntimeConfig: OpenClawConfig = {
+      const nextRuntimeConfig: HelloIoConfig = {
         ...runtimeConfig,
         gateway: { auth: { mode: "token" as const } },
       };

@@ -1,4 +1,4 @@
-import type { OpenClawConfig, DmPolicy } from "openclaw/plugin-sdk/googlechat";
+import type { HelloIoConfig, DmPolicy } from "hello-io/plugin-sdk/googlechat";
 import {
   addWildcardAllowFrom,
   formatDocsLink,
@@ -10,7 +10,7 @@ import {
   type WizardPrompter,
   DEFAULT_ACCOUNT_ID,
   migrateBaseNameToDefaultAccount,
-} from "openclaw/plugin-sdk/googlechat";
+} from "hello-io/plugin-sdk/googlechat";
 import {
   listGoogleChatAccountIds,
   resolveDefaultGoogleChatAccountId,
@@ -22,7 +22,7 @@ const channel = "googlechat" as const;
 const ENV_SERVICE_ACCOUNT = "GOOGLE_CHAT_SERVICE_ACCOUNT";
 const ENV_SERVICE_ACCOUNT_FILE = "GOOGLE_CHAT_SERVICE_ACCOUNT_FILE";
 
-function setGoogleChatDmPolicy(cfg: OpenClawConfig, policy: DmPolicy) {
+function setGoogleChatDmPolicy(cfg: HelloIoConfig, policy: DmPolicy) {
   const allowFrom =
     policy === "open"
       ? addWildcardAllowFrom(cfg.channels?.["googlechat"]?.dm?.allowFrom)
@@ -44,9 +44,9 @@ function setGoogleChatDmPolicy(cfg: OpenClawConfig, policy: DmPolicy) {
 }
 
 async function promptAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   prompter: WizardPrompter;
-}): Promise<OpenClawConfig> {
+}): Promise<HelloIoConfig> {
   const current = params.cfg.channels?.["googlechat"]?.dm?.allowFrom ?? [];
   const entry = await params.prompter.text({
     message: "Google Chat allowFrom (users/<id> or raw email; avoid users/<email>)",
@@ -84,10 +84,10 @@ const dmPolicy: ChannelOnboardingDmPolicy = {
 };
 
 function applyAccountConfig(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   accountId: string;
   patch: Record<string, unknown>;
-}): OpenClawConfig {
+}): HelloIoConfig {
   const { cfg, accountId, patch } = params;
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
@@ -123,10 +123,10 @@ function applyAccountConfig(params: {
 }
 
 async function promptCredentials(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   prompter: WizardPrompter;
   accountId: string;
-}): Promise<OpenClawConfig> {
+}): Promise<HelloIoConfig> {
   const { cfg, prompter, accountId } = params;
   const envReady =
     accountId === DEFAULT_ACCOUNT_ID &&
@@ -176,10 +176,10 @@ async function promptCredentials(params: {
 }
 
 async function promptAudience(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   prompter: WizardPrompter;
   accountId: string;
-}): Promise<OpenClawConfig> {
+}): Promise<HelloIoConfig> {
   const account = resolveGoogleChatAccount({
     cfg: params.cfg,
     accountId: params.accountId,

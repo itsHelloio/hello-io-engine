@@ -1,7 +1,7 @@
 ---
 read_when:
-  - 你想从终端搜索实时 OpenClaw 文档
-summary: "`openclaw docs` 的 CLI 参考（搜索实时文档索引）"
+  - 你想从终端搜索实时 HelloIo 文档
+summary: "`hello-io docs` 的 CLI 参考（搜索实时文档索引）"
 title: docs
 x-i18n:
   generated_at: "2026-02-03T07:44:50Z"
@@ -12,11 +12,11 @@ x-i18n:
   workflow: 15
 ---
 
-# `openclaw docs`
+# `hello-io docs`
 
 搜索实时文档索引。
 
 ```bash
-openclaw docs browser extension
-openclaw docs sandbox allowHostControl
+hello-io docs browser extension
+hello-io docs sandbox allowHostControl
 ```

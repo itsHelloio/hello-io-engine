@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/acpx",
+  "name": "@hello-io/acpx",
   "version": "2026.3.9",
-  "description": "OpenClaw ACP runtime backend via acpx",
+  "description": "HelloIo ACP runtime backend via acpx",
   "type": "module",
   "dependencies": {
     "acpx": "0.1.15"
   },
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

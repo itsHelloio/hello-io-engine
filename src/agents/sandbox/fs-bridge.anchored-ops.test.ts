@@ -53,7 +53,7 @@ describe("sandbox fs bridge anchored ops", () => {
   ] as const;
 
   it.each(pinnedReadCases)("$name", async (testCase) => {
-    await withTempDir("openclaw-fs-bridge-contract-read-", async (stateDir) => {
+    await withTempDir("hello-io-fs-bridge-contract-read-", async (stateDir) => {
       const workspaceDir = path.join(stateDir, "workspace");
       await testCase.setup(workspaceDir, stateDir);
       const bridge = createSandboxFsBridge({

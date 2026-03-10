@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/twitch";
+import type { HelloIoConfig } from "hello-io/plugin-sdk/twitch";
 import { afterEach, beforeEach, vi } from "vitest";
 
 export const BASE_TWITCH_TEST_ACCOUNT = {
@@ -7,7 +7,7 @@ export const BASE_TWITCH_TEST_ACCOUNT = {
   channel: "#testchannel",
 };
 
-export function makeTwitchTestConfig(account: Record<string, unknown>): OpenClawConfig {
+export function makeTwitchTestConfig(account: Record<string, unknown>): HelloIoConfig {
   return {
     channels: {
       twitch: {
@@ -16,7 +16,7 @@ export function makeTwitchTestConfig(account: Record<string, unknown>): OpenClaw
         },
       },
     },
-  } as unknown as OpenClawConfig;
+  } as unknown as HelloIoConfig;
 }
 
 export function installTwitchTestHooks() {

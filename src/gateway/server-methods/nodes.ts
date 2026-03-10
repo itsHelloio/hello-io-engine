@@ -331,8 +331,8 @@ export async function maybeSendNodeWakeNudge(nodeId: string): Promise<NodeWakeNu
       auth: auth.value,
       registration,
       nodeId,
-      title: "OpenClaw needs a quick reopen",
-      body: "Tap to reopen OpenClaw and restore the node connection.",
+      title: "HelloIo needs a quick reopen",
+      body: "Tap to reopen HelloIo and restore the node connection.",
     });
     if (!result.ok) {
       return withDuration({

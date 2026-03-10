@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { HelloIoConfig } from "../config/config.js";
 
 export function resolveChannelAccountConfigBasePath(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   channelKey: string;
   accountId: string;
 }): string {

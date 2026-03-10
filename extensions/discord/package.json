@@ -1,9 +1,9 @@
 {
-  "name": "@openclaw/discord",
+  "name": "@hello-io/discord",
   "version": "2026.3.9",
-  "description": "OpenClaw Discord channel plugin",
+  "description": "HelloIo Discord channel plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/slack",
+  "name": "@hello-io/slack",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw Slack channel plugin",
+  "description": "HelloIo Slack channel plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

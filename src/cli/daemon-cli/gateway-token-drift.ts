@@ -1,8 +1,8 @@
-import type { OpenClawConfig } from "../../config/config.js";
+import type { HelloIoConfig } from "../../config/config.js";
 import { resolveGatewayCredentialsFromConfig } from "../../gateway/credentials.js";
 
 export function resolveGatewayTokenForDriftCheck(params: {
-  cfg: OpenClawConfig;
+  cfg: HelloIoConfig;
   env?: NodeJS.ProcessEnv;
 }) {
   return resolveGatewayCredentialsFromConfig({

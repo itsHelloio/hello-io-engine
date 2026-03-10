@@ -1,18 +1,18 @@
 {
-  "name": "@openclaw/memory-core",
+  "name": "@hello-io/memory-core",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw core memory search plugin",
+  "description": "HelloIo core memory search plugin",
   "type": "module",
   "peerDependencies": {
-    "openclaw": ">=2026.3.2"
+    "hello-io": ">=2026.3.2"
   },
   "peerDependenciesMeta": {
-    "openclaw": {
+    "hello-io": {
       "optional": true
     }
   },
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]

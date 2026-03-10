@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk/msteams";
+import type { HelloIoConfig } from "hello-io/plugin-sdk/msteams";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -54,7 +54,7 @@ describe("msteamsOutbound cfg threading", () => {
           appId: "resolved-app-id",
         },
       },
-    } as OpenClawConfig;
+    } as HelloIoConfig;
 
     await msteamsOutbound.sendText!({
       cfg,
@@ -76,7 +76,7 @@ describe("msteamsOutbound cfg threading", () => {
           appId: "resolved-app-id",
         },
       },
-    } as OpenClawConfig;
+    } as HelloIoConfig;
 
     await msteamsOutbound.sendMedia!({
       cfg,
@@ -102,7 +102,7 @@ describe("msteamsOutbound cfg threading", () => {
           appId: "resolved-app-id",
         },
       },
-    } as OpenClawConfig;
+    } as HelloIoConfig;
 
     await msteamsOutbound.sendPoll!({
       cfg,

@@ -1,28 +1,28 @@
 services:
-  openclaw-gateway:
-    image: ${OPENCLAW_IMAGE:-openclaw:local}
+  hello-io-gateway:
+    image: ${HELLO_IO_IMAGE:-hello-io:local}
     environment:
       HOME: /home/node
       TERM: xterm-256color
-      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
-      OPENCLAW_ALLOW_INSECURE_PRIVATE_WS: ${OPENCLAW_ALLOW_INSECURE_PRIVATE_WS:-}
+      HELLO_IO_GATEWAY_TOKEN: ${HELLO_IO_GATEWAY_TOKEN:-}
+      HELLO_IO_ALLOW_INSECURE_PRIVATE_WS: ${HELLO_IO_ALLOW_INSECURE_PRIVATE_WS:-}
       CLAUDE_AI_SESSION_KEY: ${CLAUDE_AI_SESSION_KEY:-}
       CLAUDE_WEB_SESSION_KEY: ${CLAUDE_WEB_SESSION_KEY:-}
       CLAUDE_WEB_COOKIE: ${CLAUDE_WEB_COOKIE:-}
     volumes:
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${HELLO_IO_CONFIG_DIR}:/home/node/.hello-io
+      - ${HELLO_IO_WORKSPACE_DIR}:/home/node/.hello-io/workspace
       ## Uncomment the lines below to enable sandbox isolation
       ## (agents.defaults.sandbox). Requires Docker CLI in the image
-      ## (build with --build-arg OPENCLAW_INSTALL_DOCKER_CLI=1) or use
-      ## docker-setup.sh with OPENCLAW_SANDBOX=1 for automated setup.
+      ## (build with --build-arg HELLO_IO_INSTALL_DOCKER_CLI=1) or use
+      ## docker-setup.sh with HELLO_IO_SANDBOX=1 for automated setup.
       ## Set DOCKER_GID to the host's docker group GID (run: stat -c '%g' /var/run/docker.sock).
       # - /var/run/docker.sock:/var/run/docker.sock
     # group_add:
     #   - "${DOCKER_GID:-999}"
     ports:
-      - "${OPENCLAW_GATEWAY_PORT:-18789}:18789"
-      - "${OPENCLAW_BRIDGE_PORT:-18790}:18790"
+      - "${HELLO_IO_GATEWAY_PORT:-18789}:18789"
+      - "${HELLO_IO_BRIDGE_PORT:-18790}:18790"
     init: true
     restart: unless-stopped
     command:
@@ -31,7 +31,7 @@ services:
         "dist/index.js",
         "gateway",
         "--bind",
-        "${OPENCLAW_GATEWAY_BIND:-lan}",
+        "${HELLO_IO_GATEWAY_BIND:-lan}",
         "--port",
         "18789",
       ]
@@ -48,9 +48,9 @@ services:
       retries: 5
       start_period: 20s
 
-  openclaw-cli:
-    image: ${OPENCLAW_IMAGE:-openclaw:local}
-    network_mode: "service:openclaw-gateway"
+  hello-io-cli:
+    image: ${HELLO_IO_IMAGE:-hello-io:local}
+    network_mode: "service:hello-io-gateway"
     cap_drop:
       - NET_RAW
       - NET_ADMIN
@@ -59,18 +59,18 @@ services:
     environment:
       HOME: /home/node
       TERM: xterm-256color
-      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
-      OPENCLAW_ALLOW_INSECURE_PRIVATE_WS: ${OPENCLAW_ALLOW_INSECURE_PRIVATE_WS:-}
+      HELLO_IO_GATEWAY_TOKEN: ${HELLO_IO_GATEWAY_TOKEN:-}
+      HELLO_IO_ALLOW_INSECURE_PRIVATE_WS: ${HELLO_IO_ALLOW_INSECURE_PRIVATE_WS:-}
       BROWSER: echo
       CLAUDE_AI_SESSION_KEY: ${CLAUDE_AI_SESSION_KEY:-}
       CLAUDE_WEB_SESSION_KEY: ${CLAUDE_WEB_SESSION_KEY:-}
       CLAUDE_WEB_COOKIE: ${CLAUDE_WEB_COOKIE:-}
     volumes:
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${HELLO_IO_CONFIG_DIR}:/home/node/.hello-io
+      - ${HELLO_IO_WORKSPACE_DIR}:/home/node/.hello-io/workspace
     stdin_open: true
     tty: true
     init: true
     entrypoint: ["node", "dist/index.js"]
     depends_on:
-      - openclaw-gateway
+      - hello-io-gateway

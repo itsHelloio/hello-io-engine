@@ -1,8 +1,8 @@
 import {
   listDirectoryGroupEntriesFromMapKeysAndAllowFrom,
   listDirectoryUserEntriesFromAllowFromAndMapKeys,
-} from "openclaw/plugin-sdk/compat";
-import type { ClawdbotConfig } from "openclaw/plugin-sdk/feishu";
+} from "hello-io/plugin-sdk/compat";
+import type { ClawdbotConfig } from "hello-io/plugin-sdk/feishu";
 import { resolveFeishuAccount } from "./accounts.js";
 import { createFeishuClient } from "./client.js";
 import { normalizeFeishuTarget } from "./targets.js";

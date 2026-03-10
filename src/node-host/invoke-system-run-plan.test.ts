@@ -66,7 +66,7 @@ function createScriptOperandFixture(tmp: string, fixture?: RuntimeFixture): Scri
 }
 
 function withFakeRuntimeBin<T>(params: { binName: string; run: () => T }): T {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), `openclaw-${params.binName}-bin-`));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), `hello-io-${params.binName}-bin-`));
   const binDir = path.join(tmp, "bin");
   fs.mkdirSync(binDir, { recursive: true });
   const runtimePath =
@@ -140,7 +140,7 @@ describe("hardenApprovedExecutionPaths", () => {
 
   for (const testCase of cases) {
     it.runIf(process.platform !== "win32")(testCase.name, () => {
-      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-approval-hardening-"));
+      const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hello-io-approval-hardening-"));
       const oldPath = process.env.PATH;
       let pathToken: PathTokenSetup | null = null;
       if (testCase.withPathToken) {
@@ -230,7 +230,7 @@ describe("hardenApprovedExecutionPaths", () => {
       withFakeRuntimeBin({
         binName: runtimeCase.binName!,
         run: () => {
-          const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-approval-script-plan-"));
+          const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hello-io-approval-script-plan-"));
           const fixture = createScriptOperandFixture(tmp, runtimeCase);
           fs.writeFileSync(fixture.scriptPath, fixture.initialBody);
           try {
@@ -256,7 +256,7 @@ describe("hardenApprovedExecutionPaths", () => {
   }
 
   it("captures mutable shell script operands in approval plans", () => {
-    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-approval-script-plan-"));
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hello-io-approval-script-plan-"));
     const fixture = createScriptOperandFixture(tmp);
     fs.writeFileSync(fixture.scriptPath, fixture.initialBody);
     if (process.platform !== "win32") {
@@ -285,7 +285,7 @@ describe("hardenApprovedExecutionPaths", () => {
     withFakeRuntimeBin({
       binName: "bun",
       run: () => {
-        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-bun-package-script-"));
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hello-io-bun-package-script-"));
         try {
           const prepared = buildSystemRunApprovalPlan({
             command: ["bun", "run", "dev"],
@@ -307,7 +307,7 @@ describe("hardenApprovedExecutionPaths", () => {
     withFakeRuntimeBin({
       binName: "deno",
       run: () => {
-        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-deno-eval-"));
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "hello-io-deno-eval-"));
         try {
           const prepared = buildSystemRunApprovalPlan({
             command: ["deno", "eval", "console.log('SAFE')"],

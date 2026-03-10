@@ -4,7 +4,7 @@ import {
   applyBasicWebhookRequestGuards,
   type RuntimeEnv,
   installRequestBodyLimitGuard,
-} from "openclaw/plugin-sdk/feishu";
+} from "hello-io/plugin-sdk/feishu";
 import { createFeishuWSClient } from "./client.js";
 import {
   botNames,

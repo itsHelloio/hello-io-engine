@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "../config/config.js";
-import { loadOpenClawPlugins } from "../plugins/loader.js";
+import type { HelloIoConfig } from "../config/config.js";
+import { loadHelloIoPlugins } from "../plugins/loader.js";
 import { resolveUserPath } from "../utils.js";
 
 export function ensureRuntimePluginsLoaded(params: {
-  config?: OpenClawConfig;
+  config?: HelloIoConfig;
   workspaceDir?: string | null;
 }): void {
   const workspaceDir =
@@ -11,7 +11,7 @@ export function ensureRuntimePluginsLoaded(params: {
       ? resolveUserPath(params.workspaceDir)
       : undefined;
 
-  loadOpenClawPlugins({
+  loadHelloIoPlugins({
     config: params.config,
     workspaceDir,
   });

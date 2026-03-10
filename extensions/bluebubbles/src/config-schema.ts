@@ -1,8 +1,8 @@
-import { MarkdownConfigSchema, ToolPolicySchema } from "openclaw/plugin-sdk/bluebubbles";
+import { MarkdownConfigSchema, ToolPolicySchema } from "hello-io/plugin-sdk/bluebubbles";
 import {
   AllowFromEntrySchema,
   buildCatchallMultiAccountChannelSchema,
-} from "openclaw/plugin-sdk/compat";
+} from "hello-io/plugin-sdk/compat";
 import { z } from "zod";
 import { buildSecretInputSchema, hasConfiguredSecretInput } from "./secret-input.js";
 

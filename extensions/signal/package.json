@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/signal",
+  "name": "@hello-io/signal",
   "version": "2026.3.9",
   "private": true,
-  "description": "OpenClaw Signal channel plugin",
+  "description": "HelloIo Signal channel plugin",
   "type": "module",
-  "openclaw": {
+  "hello-io": {
     "extensions": [
       "./index.ts"
     ]
